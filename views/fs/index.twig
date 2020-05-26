@@ -1,0 +1,14 @@
+{% extends "layout/base.twig" %}
+{% block content %}
+    <div id="loadingPanel" class="card-panel grey darken-2 white-text">
+        Laden...
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script type="application/javascript">
+		doGET("fs").then(data => {
+			document.querySelector("#loadingPanel").remove();
+
+        }).catch(error => doErrorPanel("#loadingPanel", error));
+    </script>
+{% endblock %}

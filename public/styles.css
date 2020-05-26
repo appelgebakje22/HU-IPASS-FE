@@ -9,3 +9,11 @@ header, main, footer {
 		padding-left: 0;
 	}
 }
+
+.input-field label {
+	color: #C4C4C4;
+}
+
+input {
+	color: white;
+}

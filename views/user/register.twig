@@ -1,0 +1,58 @@
+{% extends "layout/base.twig" %}
+{% block content %}
+    <div id="errorPanel" class="card-panel red darken-2 white-text" style="display: none"></div>
+    <div class="card-panel grey darken-2 white-text">
+        <form id="formRegister" onsubmit="return tryRegister(event)">
+            <div class="input-field">
+                <input type="text" name="namefirst" id="fieldNameFirst" data-length="60" required />
+                <label for="fieldNameFirst">Voornaam</label>
+            </div>
+            <div class="input-field">
+                <input type="text" name="namelast" id="fieldNameLast" data-length="60" required />
+                <label for="fieldNameLast">Achternaam</label>
+            </div>
+            <div class="input-field">
+                <input type="email" name="email" id="fieldEmail" data-length="230" required />
+                <label for="fieldEmail">E-mail adres</label>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password" id="fieldPassword" required />
+                <label for="fieldPassword">Wachtwoord</label>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password2" id="fieldPassword2" required />
+                <label for="fieldPassword2">Herhaal wachtwoord</label>
+            </div>
+            <div class="center-align">
+                <button type="submit" class="btn waves-effect waves-light">Registreren</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script type="application/javascript">
+		const tryRegister = e => {
+			e.preventDefault();
+			const panel = document.querySelector("#errorPanel");
+			panel.style.display = "hidden";
+			const data = new FormData(document.querySelector("#formRegister"));
+			if (data.get("password") !== data.get("password2")) {
+				panel.innerHTML = "<h5>Wachtwoorden komen niet overeen!<h5>";
+				panel.style.display = "block";
+				return;
+			}
+			const encData = new URLSearchParams(data.entries());
+			doPOST("user/register", encData, {"Content-Type": "application/x-www-form-urlencoded"}).then(res => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					panel.innerHTML = "<h5>Er ging iets fout tijdens het registreren! Probeer het later opnieuw.<h5>";
+					panel.style.display = "block";
+				}
+			}).then(data => {
+				sessionStorage.setItem("jwt", data.JWT);
+				window.location.assign("/");
+			});
+		};
+    </script>
+{% endblock %}

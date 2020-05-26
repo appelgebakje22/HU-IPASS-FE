@@ -1,0 +1,41 @@
+{% extends "layout/base.twig" %}
+{% block content %}
+    <div id="errorPanel" class="card-panel red darken-2 white-text" style="display: none"></div>
+    <div class="card-panel grey darken-2 white-text">
+        <form id="formLogin" onsubmit="return tryLogin(event)">
+            <div class="input-field">
+                <input type="email" name="email" id="fieldEmail" data-length="230" required />
+                <label for="fieldEmail">E-mail adres</label>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password" id="fieldPassword" required />
+                <label for="fieldPassword">Wachtwoord</label>
+            </div>
+            <div class="center-align">
+                <button type="submit" class="btn waves-effect waves-light">Inloggen</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script type="application/javascript">
+		const tryLogin = e => {
+			e.preventDefault();
+			const panel = document.querySelector("#errorPanel");
+			panel.style.display = "hidden";
+			const data = new FormData(document.querySelector("#formLogin"));
+			const encData = new URLSearchParams(data.entries());
+			doPOST("user/login", encData, {"Content-Type": "application/x-www-form-urlencoded"}).then(res => {
+				if (res.ok) {
+					return res.json();
+				} else {
+					panel.innerHTML = "<h5>Er ging iets fout tijdens het inloggen! Probeer het later opnieuw.<h5>";
+					panel.style.display = "block";
+				}
+			}).then(data => {
+				sessionStorage.setItem("jwt", data.JWT);
+				window.location.assign("/");
+			});
+		};
+    </script>
+{% endblock %}
