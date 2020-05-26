@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="nl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="base-url" content="{{ baseUrl }}"/>
+        <meta name="api-url" content="{{ apiUrl }}"/>
+        <title>Bestandsgeschiedenis</title>
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="styles.css" type="text/css" />
+    </head>
+    <body class="grey darken-3 white-text">
+        <header>
+            <nav class="hide-on-med-and-up">
+                <div class="container">
+                    <div class="nav-wrapper">
+                        <div class="row">
+                            <div class="col s2">
+                                <a class="sidenav-trigger" href="#" data-target="sidebar">
+                                    <i class="material-icons">menu</i>
+                                </a>
+                            </div>
+                            <div class="col s10">Bestandsgeschiedenis</div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <ul id="sidebar" class="sidenav sidenav-fixed grey darken-4">
+                <li><a href="/" class="white-text"><i class="material-icons white-text">home</i>Startpagina</a></li>
+                <li><a href="/fs" class="white-text"><i class="material-icons white-text">dns</i>Mijn bestanden</a></li>
+            </ul>
+        </header>
+        <main>
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="init.js" type="application/javascript"></script>
+    <script src="dispatcher.js" type="application/javascript"></script>
+</html>
