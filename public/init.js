@@ -11,3 +11,8 @@ const doErrorPanel = (elementId, error) => {
 	div.innerHTML = `<h5>Daar ging iets fout...</h5>`;
 	if (error) div.innerHTML += `<pre>${error}</pre>`;
 };
+
+document.querySelectorAll(".needs-auth").forEach(element => {
+	const inverse = element.getAttribute("data-auth-inverse") === "true";
+	element.style.display = !sessionStorage.getItem("jwt") === inverse ? "block" : "none";
+});

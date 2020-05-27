@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="base-url" content="{{ baseUrl }}"/>
         <meta name="api-url" content="{{ apiUrl }}"/>
-        <title>Bestandsgeschiedenis</title>
+        <title>WayBack</title>
         <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -28,8 +28,20 @@
                 </div>
             </nav>
             <ul id="sidebar" class="sidenav sidenav-fixed grey darken-4">
-                <li><a href="/" class="white-text"><i class="material-icons white-text">home</i>Startpagina</a></li>
-                <li><a href="/fs" class="white-text"><i class="material-icons white-text">dns</i>Mijn bestanden</a></li>
+                <li>
+                    <a href="/" class="white-text"><i class="material-icons white-text">home</i>Startpagina</a>
+                </li>
+                <li class="needs-auth">
+                    <a href="/fs" class="white-text"><i class="material-icons white-text">dns</i>Mijn bestanden</a></li>
+                <li class="needs-auth" data-auth-inverse="true">
+                    <a href="/user/login" class="white-text"><i class="material-icons white-text">account_circle</i>Inloggen</a>
+                </li>
+                <li class="needs-auth" data-auth-inverse="true">
+                    <a href="/user/register" class="white-text"><i class="material-icons white-text">add</i>Registreren</a>
+                </li>
+                <li class="needs-auth">
+                    <a href="/user" class="white-text"><i class="material-icons white-text">account_circle</i>Mijn account</a>
+                </li>
             </ul>
         </header>
         <main>

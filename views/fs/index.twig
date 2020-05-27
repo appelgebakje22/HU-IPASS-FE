@@ -5,7 +5,7 @@
     </div>
     <div class="row" id="listDirectory">
     </div>
-    <div class="fixed-action-btn" id="buttonCreateDir" style="display: none">
+    <div class="fixed-action-btn needs-auth">
         <a class="btn-floating btn-large teal lighten-1" href="/fs/create">
             <i class="material-icons">add</i>
         </a>
@@ -13,9 +13,6 @@
 {% endblock %}
 {% block scripts %}
     <script type="application/javascript">
-		if (sessionStorage.getItem("jwt")) {
-			document.querySelector("#buttonCreateDir").style.display = "block";
-		}
 		doGET("fs").then(res => {
 			if (res.ok) {
 				return res.json();

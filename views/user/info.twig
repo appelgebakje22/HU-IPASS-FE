@@ -1,8 +1,9 @@
 {% extends "layout/base.twig" %}
 {% block content %}
+    <pre></pre>
 {% endblock %}
 {% block scripts %}
     <script type="application/javascript">
-		doGET("user").then(data => data.json()).then(console.log).catch(console.error);
+		doGET("user").then(data => data.json()).then(data => document.querySelector("pre").innerHTML = JSON.stringify(data, undefined, 4)).catch(console.error);
     </script>
 {% endblock %}
