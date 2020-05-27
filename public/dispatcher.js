@@ -11,13 +11,24 @@ const doFetch = (route, method, data, headers) => {
 		method,
 		mode:     "cors",
 		cache:    "no-cache",
-		headers:  { "Content-Type": "application/json", ...headers},
-		redirect: "follow"
+		headers:  {"Content-Type": "application/json", ...headers},
+		redirect: "follow",
 	};
 	if (method !== "GET") props.body = data || {};
 	const token = sessionStorage.getItem("jwt");
 	if (token) props.headers["Authorization"] = `Bearer ${token}`;
-	return fetch(apiUrl + route, props);
+	return fetch(apiUrl + route, props)
+		.then(async data => {
+			if (data.status === 401 && data.json) { //Unauthorized
+				const msg = await data.json();
+				if (msg.error && msg.reason === "jwt_expired") {
+					sessionStorage.removeItem("jwt");
+					location.assign("/user/login");
+					return;
+				}
+			}
+			return Promise.resolve(data);
+		});
 };
 
 /**
