@@ -3,10 +3,13 @@
     <div id="loadingPanel" class="card-panel grey darken-2 white-text">
         Laden...
     </div>
-    <div class="row" id="listDirectory">
+    <div class="row" id="listDirectory" style="display: none">
+        <div class="col s12">
+            <a class="btn" id="buttonBack"><i class="material-icons">arrow_back</i></a>
+        </div>
     </div>
     <div class="fixed-action-btn" id="buttonCreateDir" style="display: none">
-        <a class="btn-floating btn-large teal lighten-1" href="/fs/create">
+        <a class="btn-floating btn-large teal lighten-1" href="/directory/{{ directoryId }}/create">
             <i class="material-icons">add</i>
         </a>
     </div>
@@ -16,7 +19,7 @@
 		if (sessionStorage.getItem("jwt")) {
 			document.querySelector("#buttonCreateDir").style.display = "block";
 		}
-		doGET("fs").then(res => {
+		doGET("directory/{{ directoryId }}").then(res => {
 			if (res.ok) {
 				return res.json();
 			} else {
@@ -24,8 +27,11 @@
 			}
 		}).then(data => {
 			document.querySelector("#loadingPanel").remove();
+			const buttonBack = document.querySelector("#buttonBack");
+			buttonBack.setAttribute("href", data.parent ? `/directory/${data.parent}` : "/fs");
 			const listDirectory = document.querySelector("#listDirectory");
-			data.forEach(dir => {
+			listDirectory.style.display = "block";
+			data.dirs.forEach(dir => {
 				//Directory container, clickable link and background card
 				const dirContainer = document.createElement("div");
 				dirContainer.classList.add("col", "s12", "m4");

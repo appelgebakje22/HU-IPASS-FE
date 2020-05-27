@@ -1,0 +1,57 @@
+{% extends "layout/base.twig" %}
+{% block content %}
+    <div id="errorPanel" class="card-panel red darken-2 white-text" style="display: none"></div>
+    <div class="row">
+        <div class="col s12 m6 offset-m3">
+            <div class="card-panel grey darken-2 white-text">
+                <form id="formCreateDir" onsubmit="return tryCreateDir(event)">
+                    <div class="input-field">
+                        <input type="text" name="name" id="fieldName" data-length="230" required />
+                        <label for="fieldName">Naam</label>
+                    </div>
+                    <div class="center-align">
+                        <button type="submit" class="btn waves-effect waves-light">Verzenden</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script type="application/javascript">
+		const tryCreateDir = e => {
+			e.preventDefault();
+			const panel = document.querySelector("#errorPanel");
+			panel.style.display = "hidden";
+			const data = new FormData(document.querySelector("#formCreateDir"));
+			const encData = new URLSearchParams(data.entries());
+			doPOST("fs", encData, {"Content-Type": "application/x-www-form-urlencoded"}).then(async res => {
+				if (res.json) {
+					return res.json();
+				} else {
+					panel.innerHTML = "<h5>Er ging iets fout tijdens het aanmaken van de map! Probeer het later opnieuw.<h5>";
+					panel.style.display = "block";
+				}
+			}).then(data => {
+				if (!data.error) {
+					location.assign(`/directory/${data.id}`);
+				} else {
+					let reason = "Er ging iets fout tijdens het aanmaken van de map! Probeer het later opnieuw.";
+					switch (data.reason) {
+						case "name_invalid":
+							reason = "Voer een geldige naam in!"
+							break;
+						case "parent_invalid":
+							reason = "Kon hoofdmap niet ophalen!";
+							break;
+						case "duplicate_name":
+							reason = "Er bestaat al een map met deze naam!";
+							break;
+					}
+					panel.innerHTML = `<h5>${reason}<h5>`;
+					panel.style.display = "block";
+				}
+			});
+		};
+    </script>
+{% endblock %}

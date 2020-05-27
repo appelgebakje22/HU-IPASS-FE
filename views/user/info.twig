@@ -1,0 +1,8 @@
+{% extends "layout/base.twig" %}
+{% block content %}
+{% endblock %}
+{% block scripts %}
+    <script type="application/javascript">
+		doGET("user").then(data => data.json()).then(console.log).catch(console.error);
+    </script>
+{% endblock %}
