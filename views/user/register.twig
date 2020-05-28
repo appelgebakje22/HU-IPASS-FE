@@ -2,6 +2,9 @@
 {% block content %}
     <div id="errorPanel" class="card-panel red darken-2 white-text" style="display: none"></div>
     <div class="card-panel grey darken-2 white-text">
+        <div class="center-align">
+            <h4>Registreren</h4>
+        </div>
         <form id="formRegister" onsubmit="return tryRegister(event)">
             <div class="input-field">
                 <input type="text" name="namefirst" id="fieldNameFirst" data-length="60" required />
@@ -24,13 +27,23 @@
                 <label for="fieldPassword2">Herhaal wachtwoord</label>
             </div>
             <div class="center-align">
-                <button type="submit" class="btn waves-effect waves-light">Registreren</button>
+                <button type="submit" class="btn waves-effect waves-light">
+                    <i class="material-icons left">send</i>Registreren
+                </button>
             </div>
         </form>
+    </div>
+    <div class="card-panel grey darken-2 white-text">
+        <div class="center-align">
+            <a href="/user/login" class="waves-effect waves-teal btn-flat white-text">
+                <i class="material-icons left">arrow_forward</i>Al geregistreerd?
+            </a>
+        </div>
     </div>
 {% endblock %}
 {% block scripts %}
     <script type="application/javascript">
+		runForGuest(() => window.location.assign("/"), true);
 		const tryRegister = e => {
 			e.preventDefault();
 			const panel = document.querySelector("#errorPanel");

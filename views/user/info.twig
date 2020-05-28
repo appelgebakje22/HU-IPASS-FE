@@ -4,6 +4,7 @@
 {% endblock %}
 {% block scripts %}
     <script type="application/javascript">
+	    runForGuest(() => window.location.assign("/user/login"));
 		doGET("user").then(data => data.json()).then(data => document.querySelector("pre").innerHTML = JSON.stringify(data, undefined, 4)).catch(console.error);
     </script>
 {% endblock %}

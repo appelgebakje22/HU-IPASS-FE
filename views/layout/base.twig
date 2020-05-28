@@ -42,6 +42,9 @@
                 <li class="needs-auth">
                     <a href="/user" class="white-text"><i class="material-icons white-text">account_circle</i>Mijn account</a>
                 </li>
+                <li class="needs-auth">
+                    <a href="javascript:void(0)" class="white-text" onclick="doLogout()"><i class="material-icons white-text">clear</i>Uitloggen</a>
+                </li>
             </ul>
         </header>
         <main>
@@ -54,6 +57,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="/init.js" type="application/javascript"></script>
     <script src="/dispatcher.js" type="application/javascript"></script>
+    <script src="/utils.js" type="application/javascript"></script>
     {% block scripts %}
     {% endblock %}
+    <script type="application/javascript">
+        const doLogout = () => {
+	        sessionStorage.removeItem("jwt");
+        	location.assign("/");
+        };
+    </script>
 </html>

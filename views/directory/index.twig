@@ -4,9 +4,12 @@
         Laden...
     </div>
     <div class="row" id="listDirectory" style="display: none">
-        <div class="col s12">
-            <a class="btn" id="buttonBack"><i class="material-icons">arrow_back</i></a>
-        </div>
+		<div class="col s12">
+			<a class="btn" id="buttonBack"><i class="material-icons">arrow_back</i></a>
+		</div>
+		<div class="col s12">
+			<h5 id="fieldDirTitle"></h5>
+		</div>
     </div>
     <div class="fixed-action-btn needs-auth">
         <a class="btn-floating btn-large teal lighten-1" href="/directory/{{ directoryId }}/create">
@@ -16,6 +19,7 @@
 {% endblock %}
 {% block scripts %}
     <script type="application/javascript">
+		runForGuest(() => window.location.assign("/user/login"));
 		doGET("directory/{{ directoryId }}").then(res => {
 			if (res.ok) {
 				return res.json();
@@ -23,25 +27,25 @@
 				doErrorPanel("#loadingPanel", "<h5></h5>");
 			}
 		}).then(data => {
+			document.querySelector("#fieldDirTitle").innerHTML = data["name"];
 			document.querySelector("#loadingPanel").remove();
-			const buttonBack = document.querySelector("#buttonBack");
-			buttonBack.setAttribute("href", data.parent ? `/directory/${data.parent}` : "/fs");
+			document.querySelector("#buttonBack").setAttribute("href", data["parent"] ? `/directory/${data["parent"]}` : "/fs");
 			const listDirectory = document.querySelector("#listDirectory");
 			listDirectory.style.display = "block";
-			data.dirs.forEach(dir => {
+			data["dirs"].forEach(dir => {
 				//Directory container, clickable link and background card
 				const dirContainer = document.createElement("div");
 				dirContainer.classList.add("col", "s12", "m4");
 				listDirectory.append(dirContainer);
 				const dirLink = document.createElement("a");
-				dirLink.setAttribute("href", `${baseUrl}directory/${dir.id}`);
+				dirLink.setAttribute("href", `${baseUrl}directory/${dir["id"]}`);
 				dirContainer.append(dirLink);
 				const dirElement = document.createElement("div");
 				dirElement.classList.add("card-panel", "grey", "darken-2", "white-text");
 				dirLink.append(dirElement);
 				//Directory title
 				const dirTitle = document.createElement("h5");
-				dirTitle.innerHTML = dir.name;
+				dirTitle.innerHTML = dir["name"];
 				dirElement.append(dirTitle);
 			});
 		});

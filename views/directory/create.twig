@@ -20,6 +20,7 @@
 {% endblock %}
 {% block scripts %}
     <script type="application/javascript">
+		runForGuest(() => window.location.assign("/user/login"));
 		const tryCreateDir = e => {
 			e.preventDefault();
 			const panel = document.querySelector("#errorPanel");
